@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>france inter</title>
+  </head>
+  <body >
+<img id="cast" src="https://www.franceinter.fr/img/organization_logo.png" />
+
+<script src="https://castjs.io/cast.min.js"></script>
+<script>
+  //https://github.com/castjs/castjs
+// Create new Castjs instance
+const cjs = new Castjs();
+
+// Wait for user interaction
+document.getElementById('cast').addEventListener('click', function() {
+    // Check if casting is available
+    if (cjs.available) {
+        // Initiate new cast session
+         cjs.cast('http://icecast.radiofrance.fr/franceinter-midfi.mp3', {
+      poster     : 'https://www.franceinter.fr/img/organization_logo.png',
+      title      : 'France Inter',
+      description: 'France inter',
+    })
+    }
+});
+</script>

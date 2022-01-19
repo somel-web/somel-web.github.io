@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rangeslider.js/2.3.2/rangeslider.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-dropdown/2.0.3/jquery.dropdown.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.3.1/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.3.1/styles/an-old-hope.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Cast.js Sender 📺 Demo</title>
+  </head>
+  <body class="disabled">
+    <div class="container">
+            
+      <div class="col">
+
+        <div class="settings">
+          <i id="captions" data-jq-dropdown="#jq-dropdown-1" class="fas fa-closed-captioning"></i>
+          <div id="jq-dropdown-1" class="jq-dropdown jq-dropdown-tip">
+            <ul class="jq-dropdown-menu">
+              <li><a class="active" href="0">English</a></li>
+              <li><a href="1">Spanish</a></li>
+            </ul>
+          </div>
+          <i id="mute" class="fas fa-volume-up"></i>
+          <i id="cast" class="fab fa-chromecast disabled"></i>
+        </div>
+        <div class="timeline">
+          <div id="time">00:00:00</div>
+          <input id="range" type="range" min="0" max="100" step="1" value="0">
+          <div id="duration">00:00:00</div>
+        </div>
+        <div class="controls">
+          <i id="back" class="fas fa-history"></i>
+          <i id="play" class="fas fa-play"></i>
+          <i id="forward" class="fas fa-history fa-flip-horizontal"></i>
+        </div>
+        <div id="state">Disconnected</div>
+      </div>
+
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rangeslider.js/2.3.2/rangeslider.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-dropdown/2.0.3/jquery.dropdown.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.3.1/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/castjs/4.1.2/cast.min.js" crossorigin="anonymous"></script>
+    <script src="js/player.js" crossorigin="anonymous"></script>
+    <script>
+      var val = '<script src=\"https://cdnjs.cloudflare.com/ajax/libs/castjs/4.1.2/cast.min.js\">\<\/script>'
+      val = val.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+      $('.language-html').html(val)
+      hljs.initHighlightingOnLoad();
+    </script>
+  </body>
+</html>
