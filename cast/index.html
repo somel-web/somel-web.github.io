@@ -6,7 +6,8 @@
     <title>france inter</title>
   </head>
   <body >
-<img style="width: 100px;" id="cast" src="assets/france-inter.png" />
+<img style="width: 100px;" id="cast-fi" src="assets/france-inter.png" />
+<img style="width: 100px;" id="cast-fc" src="assets/france-culture.png" />
 
 <script src="js/cast.js"></script>
 <script>
@@ -19,14 +20,25 @@
 const cjs = new Castjs();
 
 // Wait for user interaction
-document.getElementById('cast').addEventListener('click', function() {
+document.getElementById('cast-fi').addEventListener('click', function() {
     // Check if casting is available
     if (cjs.available) {
         // Initiate new cast session
          cjs.cast('http://icecast.radiofrance.fr/franceinter-midfi.mp3', {
-      poster     : 'https://charte.dnm.radiofrance.fr/images/franceinter/france-inter.png',
+      poster     : 'assets/france-inter.png',
       title      : 'France Inter',
       description: 'France inter',
+    })
+    }
+});
+  document.getElementById('cast-fc').addEventListener('click', function() {
+    // Check if casting is available
+    if (cjs.available) {
+        // Initiate new cast session
+         cjs.cast('http://icecast.radiofrance.fr/franceculture-midfi.mp3', {
+      poster     : 'assets/france-culture.png',
+      title      : 'France Culture',
+      description: 'France Culture',
     })
     }
 });
