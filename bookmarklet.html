@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<index>
+  <head>
+    <title>Bookmarklet</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+       <style>
+     /* body {background-color: powderblue;} */
+    html {
+      background-color: white;
+      width: 100%;
+      height: 100%;
+      }
+
+      a { text-decoration: none; }
+      a[href]:link { color: rgb(196,69,29); }
+      a[href]:visited { color: rgb(171,105,84); }
+      a[href]:hover { text-decoration:underline; }     
+      
+     h1   {
+          color: rgb(78,98,114);
+          font-weight: bold;
+          border-bottom: 1px solid #ddd;
+          text-align: center;
+     }
+     
+     p    {color: darkblue;}
+
+     body {
+      font: 13px/1.4 sans-serif;
+     }
+
+      pre {
+        padding: 0.25em;
+        
+        margin: 0.8em 0;
+        background: rgb(229,237,244);
+        overflow: auto;
+        border-bottom: 0.25em solid white;
+        display: block;
+        width: 40%;
+      }
+
+     #code-textarea {
+       font-size: 14px;
+       line-height: 20px;
+       height: 60px;
+       margin: 4px 0;
+       border: 1px solid #bbb;
+       padding: 4px 7px;
+       width:  725px;
+       height: 250px;        
+     }
+
+     .output-textarea {
+       width: 725px;
+     }
+
+     a.bookmarklet, a.button {
+       /* display: -moz-inline-box; */
+       /* display: inline-block; */
+       padding: 1px 6px;
+       color: #fff;
+       background: #32a0eb;
+       -webkit-border-radius: 4px;
+       -moz-border-radius: 4px;
+       border-radius: 4px;
+   
+     }
+
+     #nodisc-ul {
+       list-style-type: none;
+     }
+
+     li {
+       display: block;
+       padding: 10px 20px;
+     }
+
+     
+     
+    </style>
+   
+    
+  </head>
+  <body>
+    <div id="top.div">
+      <h1>Bookmarklets</h1>
+     </div>
+    
+    <div id="main.div">
+      <a href="javascript:document.querySelector%28%22%23certdc-app%20%3E%20section%20%3E%20div%20%3E%20cdc-certificat%20%3E%20div%20%3E%20div.helpbar-container%22%29.remove%28%29%3Bdocument.querySelector%28%22%23certdc-app%20%3E%20cdc-footer%22%29.remove%28%29%3Bdocument.querySelector%28%22%23certdc-app%20%3E%20section%20%3E%20div%20%3E%20cdc-certificat%20%3E%20div%20%3E%20div.width%22%29.classList.remove%28%22width%22%29">certdc</a>
+    <a href="javascript:%28function%28%29%7Bvar%20myWindow%3Dwindow.open%28%22%22%2C%22%22%2C%22width%3D600%2Cheight%3D600%22%29%3Bvar%20t%3Ddocument.getElementsByClassName%28%22listing-body-article%22%29%5B0%5D.innerHTML%3BmyWindow.document.write%28t%29%3B%7D%29%28%29%3B">generaliste</a>
+    </div>
+  </body>
+</index>
