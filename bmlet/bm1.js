@@ -1,6 +1,6 @@
 var window = webix.ui({
     view:"window",
-    id:"my_windo",
+    id:"my_windon",
     head:"My Window",
     width: 200,
     height: 200,
