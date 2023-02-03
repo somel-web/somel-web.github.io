@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AAt-pdf
-// @version     1.6
+// @version     1.7
 // @downloadURL https://ext.somel.ovh/aat/aat-pdf.js
 // @updateURL   https://ext.somel.ovh/aat/aat-pdf.js
 // @description
@@ -150,7 +150,7 @@ function open(method, url) {
           mail(pdf, mail_adress, nom_patient, config_mcsos.mcsos_params.id_medecin, message);
         });
 
-				Gui.event("button-haut", "click", () => {
+				Gui.event("button-mail_amoi", "click", () => {
 					totop();
           message = Gui.getValue("textarea-message");
           mail_adress = config_mcsos.mcsos_params.email_medecin;
