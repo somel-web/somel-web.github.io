@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AAt-pdf
-// @version     1.7
+// @version     1.8
 // @downloadURL https://ext.somel.ovh/aat/aat-pdf.js
 // @updateURL   https://ext.somel.ovh/aat/aat-pdf.js
 // @description
@@ -52,10 +52,7 @@ Gui.addPage("Some tab name", `
     </div>
 
 
-	<div class="formbuilder-textarea form-group field-textarea-message">
-        <label for="textarea-message" class="formbuilder-textarea-label">Message</label>
-        <textarea type="textarea" class="form-control" name="textarea-message" access="false" rows="5" id="textarea-message"></textarea>
-    </div>
+
 
     <div class="formbuilder-text form-group field-text-nom_patient">
         <label for="text-nom_patient" class="formbuilder-text-label">Nom Patient</label>
@@ -137,22 +134,22 @@ function open(method, url) {
       //console.log(pdf);
       // GM_setValue("testo",arrayBufferToBase64(this.response));
       Gui.open(() => {
-        Gui.setValue("textarea-message", message);
+
         Gui.setValue("text-nom_patient", nom_patient);
         Gui.setValue("text-mail_patient", config_mcsos.fiche_sobek.mail_patient);
 
 
 
         Gui.event("button-mail", "click", () => {
-          message = Gui.getValue("textarea-message");
+
           mail_adress = Gui.getValue("text-mail_patient");
           nom_patient = Gui.getValue("text-nom_patient");
           mail(pdf, mail_adress, nom_patient, config_mcsos.mcsos_params.id_medecin, message);
         });
 
 				Gui.event("button-mail_amoi", "click", () => {
-					totop();
-          message = Gui.getValue("textarea-message");
+	
+
           mail_adress = config_mcsos.mcsos_params.email_medecin;
           nom_patient = Gui.getValue("text-nom_patient");
           mail(pdf, mail_adress, nom_patient, config_mcsos.mcsos_params.id_medecin, message);
