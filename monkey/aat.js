@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AAt-pdf
-// @version     1.9
+// @version     1.10
 // @downloadURL https://somel-web.github.io/monkey/aat.js
 // @updateURL   https://somel-web.github.io/monkey/aat.js
 // @description
@@ -118,6 +118,9 @@ function messageFromUrl(url) {
   if (url == "/aat-api/pdf/cerfa/" || url == "/aat-api/pdf/cerfa") { return `Votre arret de travail a imprimer \nle volet 1 et 2 sont envoyer a votre caisse\nle volet 3 est a envoyer a votre employeur` }
   if (url.indexOf('/aat-api/pdf/recapitulatif?idAAT') > -1 || url == '/aat-api/pdf/recapitulatif/') { return `L'arret de travail a été transmis a votre caisse maladie\nvoici Votre justificatif a envoyer a votre employeur` }
   if (url == '/aat-api/pdf/volet/employeur' || url == '/aat-api/pdf/volet/employeur/') { return `L'arret de travail a été transmis a votre caisse maladie\nvoici Votre justificatif a envoyer a votre employeur` }
+  if (url == '/atmp-api/pdf/cerfa/atmp') { return `votre declaration d'accident du travail` }
+  if (url == '/atmp-api/pdf/exemplaire/assure') { return `votre avis d'accident du travail` }
+  if (url.indexOf('/atmp-api/pdf/recap/ps?idATMP') > -1) { return `avis d'accident du travail` }
 }
 
 //hook de la page pour intercpter les evenemets xhr
@@ -131,6 +134,9 @@ function open(method, url) {
     || url == '/aat-api/pdf/recapitulatif/'
     || url == '/aat-api/pdf/volet/employeur'
     || url == '/aat-api/pdf/volet/employeur/'
+    || url == '/atmp-api/pdf/cerfa/atmp'
+    || url == '/atmp-api/pdf/exemplaire/assure'
+    || url.indexOf('/atmp-api/pdf/recap/ps?idATMP') > -1
 
   ) {
     message = messageFromUrl(url);
@@ -184,11 +190,18 @@ xhrProto.open = GMCompat.export(open)
 const disconnect = VM.observe(document.body, () => {
   const node_prenom = document.getElementById("prenom"); // prenom = nom prenom patient !!
   const nom_prenom_ps = document.getElementById("nom_prenom_ps");
+  const node_nom_atmp = document.getElementsByClassName("p2-nom-patient")[0];
   //document.getElementById("infos").innerText
   if (node_prenom) {
     nom_patient = (node_prenom.innerText);
+  }
+  if (node_nom_atmp) {
+    nom_patient = (node_nom_atmp.innerText);
+  }
+  if (node_prenom || node_nom_atmp) {
     // disconnect observer
     return true;
+
   }
 });
 
