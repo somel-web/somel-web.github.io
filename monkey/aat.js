@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AAt-pdf
-// @version     1.8
+// @version     1.9
 // @downloadURL https://somel-web.github.io/monkey/aat.js
 // @updateURL   https://somel-web.github.io/monkey/aat.js
 // @description
@@ -14,8 +14,6 @@
 // @grant       GM_xmlhttpRequest
 
 // ==/UserScript==
-
-//https://espacepro.ameli.fr/aat/*//
 
 function arrayBufferToBase64(buffer) {
   var binary = '';
@@ -36,65 +34,74 @@ function base64ToArrayBuffer(base64) {
   }
   return bytes.buffer;
 }
+function isValidEmailAddress(emailAddress) {
+  var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+  return pattern.test(emailAddress);
+};
 
 //https://github.com/AugmentedWeb/UserGui/
 //https://beautifytools.com/html-form-builder.php
+
 const Gui = new UserGui;
-Gui.settings.window.centered = false;
-Gui.settings.window.title = "Mail Au Patient"; // set window title
-Gui.settings.window.centered = true; // GUI starts at the center of the screen
-Gui.settings.gui.internal.darkCloseButton = true; // Changes the close button to dark theme
-Gui.addPage("Some tab name", `
+
+const imgmail = `
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 20 20">
+  <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/>
+</svg>`;
+
+var htmlpage = `
 <div class="rendered-form">
 
-	<div class="formbuilder-button form-group field-button-haut">
-        <button type="button" class="btn btn-outline-success btn-sm" name="button-haut" access="false" style="primary" id="button-haut">T</button>
-    </div>
-
-
-
-
-    <div class="formbuilder-text form-group field-text-nom_patient">
-        <label for="text-nom_patient" class="formbuilder-text-label">Nom Patient</label>
-        <input type="text" class="form-control" name="text-nom_patient" access="false" id="text-nom_patient">
-    </div>
     <div class="formbuilder-text form-group field-text-mail_patient">
-        <label for="text-mail_patient" class="formbuilder-text-label">mail patient</label>
-        <input type="email" class="form-control" name="text-mail_patient" access="false" id="text-mail_patient" required="required" aria-required="true">
+        <input type="email" class="form-control" name="text-mail_patient" access="false" placeholder="mail patient" id="text-mail_patient" required="required" aria-required="true">
     </div>
-    <div class="formbuilder-button form-group field-button-mail">
-        <button type="button" class="btn-success btn" name="button-mail" access="false" style="success" id="button-mail">Envoyer par mail au patient</button>
+
+    <div class="form-group field-button-mail">
+        <button type="button" class="btn-success btn w-100" name="button-mail" access="false" style="success" id="button-mail">Envoyer par mail au patient</button>
     </div>
-	<div class="formbuilder-button form-group field-button-mail_amoi">
-        <button type="button" class="btn-primary btn" name="button-mail_amoi" access="false" style="primary" id="button-mail_amoi">envoyer par mail a MOI</button>
+		<div class=" form-group field-button-mail_amoi">
+        <button type="button" class="btn-primary btn w-100" name="button-mail_amoi" access="false" style="primary" id="button-mail_amoi">envoyer par mail a MOI</button>
     </div>
-</div>
-`);
+	</div>
+
+`;
+//Gui.settings.window.centered = false;
+Gui.settings.window.title = "Envoyer au patient"; // set window title
+Gui.settings.window.centered = true; // GUI starts at the center of the screen
+Gui.settings.gui.internal.darkCloseButton = true; // Changes the close button to dark theme
+Gui.addPage("mail", htmlpage);
+
+
+
 
 function mail(pdf_aat, mail_adress, nom_patient, id_medecin, message) {
   var URL = `https://www.h24scm.fr/scm/mcsos/server/amelipdf.php?mail_adress=${mail_adress}&nom_patient=${nom_patient}&id_medecin=${id_medecin}&message=${message}`;
   URL = encodeURI(URL);
-  console.log(URL);
+  //console.log(mail_adress);
+  if (!isValidEmailAddress(mail_adress)) { alert("mail invalide") }
+  else {
+    Gui.close();
+    GM_xmlhttpRequest({
+      method: "POST",
+      url: URL,
+      data: pdf_aat,
+      onload: function (response) {
+        console.log(response.responseText);
 
-  GM_xmlhttpRequest({
-    method: "POST",
-    url: URL,
-    data: pdf_aat,
-    onload: function (response) {
-      console.log(response.responseText);
-      Gui.close();
-    }
+      }
 
-  });
+    });
+
+  }
 
 }
 
-function totop(){
-	var list = document.getElementsByTagName("iframe");
+function totop() {
+  var list = document.getElementsByTagName("iframe");
 
-			for (let item of list) {
-					item.style.top = "0px";
-			}
+  for (let item of list) {
+    item.style.top = "0px";
+  }
 }
 
 //GM_setValue("test","rer");
@@ -106,18 +113,17 @@ var config_mcsos;
 var nom_patient;
 var message;
 
+
 function messageFromUrl(url) {
   if (url == "/aat-api/pdf/cerfa/" || url == "/aat-api/pdf/cerfa") { return `Votre arret de travail a imprimer \nle volet 1 et 2 sont envoyer a votre caisse\nle volet 3 est a envoyer a votre employeur` }
-
   if (url.indexOf('/aat-api/pdf/recapitulatif?idAAT') > -1 || url == '/aat-api/pdf/recapitulatif/') { return `L'arret de travail a été transmis a votre caisse maladie\nvoici Votre justificatif a envoyer a votre employeur` }
-
   if (url == '/aat-api/pdf/volet/employeur' || url == '/aat-api/pdf/volet/employeur/') { return `L'arret de travail a été transmis a votre caisse maladie\nvoici Votre justificatif a envoyer a votre employeur` }
 }
 
 //hook de la page pour intercpter les evenemets xhr
 function open(method, url) {
+
   console.log(url);
-  // (url == "/aat-api/pdf/cerfa/" || url == "/aat-api/pdf/cerfa" || url.indexOf('/aat-api/pdf/recapitulatif?idAAT') >-1 || url== '/aat-api/pdf/volet/employeur')
 
   if (url == "/aat-api/pdf/cerfa/"
     || url == "/aat-api/pdf/cerfa"
@@ -130,38 +136,42 @@ function open(method, url) {
     message = messageFromUrl(url);
     this.addEventListener('load', () => {
 
+
       pdf = arrayBufferToBase64(this.response);
       //console.log(pdf);
       // GM_setValue("testo",arrayBufferToBase64(this.response));
-      Gui.open(() => {
+      if (config_mcsos.mcsos_params) {
+        Gui.open(() => {
+          Gui.window.document.getElementById("button-mail_amoi").innerHTML = `${imgmail}  ${config_mcsos.mcsos_params.email_medecin}`;
+          //Gui.setValue("text-nom_patient", nom_patient);
+          Gui.setValue("text-mail_patient", config_mcsos.fiche_sobek.mail_patient);
 
-        Gui.setValue("text-nom_patient", nom_patient);
-        Gui.setValue("text-mail_patient", config_mcsos.fiche_sobek.mail_patient);
+          Gui.event("button-mail", "click", () => {
+            mail_adress = Gui.getValue("text-mail_patient");
+            //nom_patient = Gui.getValue("text-nom_patient");
+            mail(pdf, mail_adress, nom_patient, config_mcsos.mcsos_params.id_medecin, message);
 
+          });
 
-
-        Gui.event("button-mail", "click", () => {
-
-          mail_adress = Gui.getValue("text-mail_patient");
-          nom_patient = Gui.getValue("text-nom_patient");
-          mail(pdf, mail_adress, nom_patient, config_mcsos.mcsos_params.id_medecin, message);
+          Gui.event("button-mail_amoi", "click", () => {
+            mail_adress = config_mcsos.mcsos_params.email_medecin;
+            mail(pdf, mail_adress, nom_patient, config_mcsos.mcsos_params.id_medecin, message);
+          });
         });
+      }
+      else {
 
-				Gui.event("button-mail_amoi", "click", () => {
-	
+        Gui.open(() => {
+          Gui.window.document.getElementById("button-mail_amoi").innerText = "McSos ??";
+          Gui.setValue("text-mail_patient", "");
+          Gui.disable("button-mail_amoi");
+          Gui.event("button-mail", "click", () => {
+            mail_adress = Gui.getValue("text-mail_patient");
+            mail(pdf, mail_adress, nom_patient, "O", message);
+          });
 
-          mail_adress = config_mcsos.mcsos_params.email_medecin;
-          nom_patient = Gui.getValue("text-nom_patient");
-          mail(pdf, mail_adress, nom_patient, config_mcsos.mcsos_params.id_medecin, message);
         });
-
-        Gui.event("button-haut", "click", () => {
-					totop();
-
-        });
-
-      });
-
+      }
     })
   }
   GMCompat.apply(this, oldOpen, arguments)
@@ -187,6 +197,7 @@ const disconnect = VM.observe(document.body, () => {
 window.addEventListener("message", receiveMessage, false);
 function receiveMessage(event) {
   config_mcsos = event.data;
+
   console.log(config_mcsos);
   // config_mcsos.fiche_sobek.mail_patient;
 }
