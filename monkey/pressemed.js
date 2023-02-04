@@ -5,7 +5,7 @@
 // @match       https://www.lequotidiendumedecin.fr/*
 // @match 		https://www.legeneraliste.fr/*
 // @grant       none
-// @version     1.1
+// @version     1.2
 // @author      -
 // @description 03/02/2023 05:30:19
 // ==/UserScript==
@@ -26,7 +26,7 @@ var html =`
   voir article
 </button>
 
-<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+<div style="width:100%" class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
   <div class="offcanvas-header">
     <h5 class="offcanvas-title" id="offcanvasExampleLabel">article</h5>
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
