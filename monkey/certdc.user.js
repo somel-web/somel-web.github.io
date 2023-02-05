@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        certdc
-// @downloadURL https://somel-web.github.io/monkey/certdc.js
-// @updateURL   https://somel-web.github.io/monkey/certdc.js
+// @downloadURL https://somel-web.github.io/monkey/certdc.user.js
+// @updateURL   https://somel-web.github.io/monkey/certdc.user.js
 // @match       https://certdc.inserm.fr/certdc-front/#/certificat*
 // @grant       none
 // @version     1.0

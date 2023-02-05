@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        quotidmed generaliste
-// @downloadURL https://somel-web.github.io/monkey/pressemed.js
-// @updateURL   https://somel-web.github.io/monkey/pressemed.js
+// @downloadURL https://somel-web.github.io/monkey/pressemed.user.js
+// @updateURL   https://somel-web.github.io/monkey/pressemed.user.js
 // @match       https://www.lequotidiendumedecin.fr/*
 // @match 		https://www.legeneraliste.fr/*
 // @grant       none
