@@ -1,11 +1,12 @@
 // ==UserScript==
 // @name        AAt-pdf
-// @version     1.10
+// @version     1.11
 // @downloadURL https://somel-web.github.io/monkey/aat.user.js
 // @updateURL   https://somel-web.github.io/monkey/aat.user.js
 // @description
 // @match       https://ext.somel.ovh/aat/*
 // @match       https://espacepro.ameli.fr/aat/*
+// @match       https://espacepro.ameli.fr/atmp/*
 // @require     https://unpkg.com/gm-compat@1.1.0
 // @require     https://github.com/AugmentedWeb/UserGui/raw/Release-1.0/usergui.js
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/dom@2
