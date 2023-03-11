@@ -16,6 +16,7 @@
 var a = document.createElement('iframe')
 a.src = "https://www.h24scm.fr/scm/mcsosp/amelipro/"
 a.id = "dest"
+a.style = "visibility:hidden;"
 a.onload = () => {
 	var mes = {}
 	mes.type = "width"
