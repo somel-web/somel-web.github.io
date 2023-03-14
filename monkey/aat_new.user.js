@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        at-pdf new
-// @version     1.1
+// @version     1.2
 // @description
 // @downloadURL https://somel-web.github.io/monkey/aat_new.user.js
 // @updateURL   https://somel-web.github.io/monkey/aat_new.user.js
@@ -14,7 +14,7 @@
 // ==/UserScript==
 
 var a = document.createElement('iframe')
-a.src = "https://www.h24scm.fr/scm/mcsosp/amelipro/"
+a.src = "https://www.h24scm.fr/scm/mcsos/amelipro/"
 a.id = "dest"
 a.style = "visibility:hidden;height:0px;position: fixed;top:0px;"
 a.onload = () => {
