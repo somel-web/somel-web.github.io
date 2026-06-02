@@ -259,7 +259,7 @@ fetch(CSV_URL)
  books=data.map(r=>{
    let auteur = "";
    if(prenomCol !== -1 || nomCol !== -1){
-     auteur = [r[prenomCol] || "", r[nomCol] || ""].join(" ").trim();
+     auteur = [r[nomCol] || "", r[prenomCol] || ""].join(" ").trim();
    } else if(auteurCol !== -1) {
      auteur = (r[auteurCol] || "").trim();
    }
