@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Bibliothèque</title>
+<title>Bibliotheque</title>
 <style>
 :root{
   --bg:#f3f4f6;
@@ -59,30 +59,15 @@ main{padding:10px}
 }
 .book{
   display:grid;
-  grid-template-columns:42px 1fr 36px 36px;
+  grid-template-columns:1fr auto auto;
   gap:8px;
   align-items:center;
   background:var(--card);
   border-radius:13px;
-  padding:8px;
+  padding:10px;
   margin-bottom:7px;
   box-shadow:0 1px 6px rgba(0,0,0,.055);
-  min-height:64px;
-}
-.cover{
-  width:42px;
-  height:58px;
-  object-fit:cover;
-  border-radius:5px;
-  background:#e5e7eb;
-  flex:none;
-}
-.cover.empty{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#9ca3af;
-  font-size:20px;
+  min-height:58px;
 }
 .info{min-width:0}
 .line1{
@@ -115,8 +100,8 @@ main{padding:10px}
   text-overflow:ellipsis;
 }
 .iconbtn{
-  width:36px;
-  height:36px;
+  width:38px;
+  height:38px;
   border-radius:999px;
   display:flex;
   align-items:center;
@@ -124,41 +109,20 @@ main{padding:10px}
   text-decoration:none;
   background:#f9fafb;
   border:1px solid var(--border);
-  font-size:17px;
+  font-size:18px;
   flex:0 0 auto;
 }
 .iconbtn:active{background:#e5e7eb}
-.emptyMsg{
+.empty{
   text-align:center;
   color:var(--muted);
   margin-top:40px;
 }
 @media (max-width:420px){
-  .book{
-    grid-template-columns:36px 1fr 32px 32px;
-    gap:6px;
-    padding:7px;
-    min-height:58px;
-  }
-  .cover{
-    width:36px;
-    height:52px;
-  }
-  .iconbtn{
-    width:32px;
-    height:32px;
-    font-size:15px;
-  }
-  .author{
-    max-width:45%;
-    font-size:14px;
-  }
-  .title{
-    font-size:14px;
-  }
-  .meta{
-    font-size:11px;
-  }
+  .book{grid-template-columns:1fr 34px 34px;gap:6px;padding:9px}
+  .iconbtn{width:34px;height:34px;font-size:16px}
+  .author{max-width:45%;font-size:14px}
+  .title{font-size:14px}
 }
 </style>
 </head>
@@ -184,8 +148,6 @@ main{padding:10px}
 </main>
 
 <script>
-// Mets ici le CSV enrichi avec la colonne cover.
-// Exemple : https://somel-web.github.io/books/bibliotheque-genes-avec-covers.csv
 const CSV_URL = "https://somel-web.github.io/books/bibliotheque-genes.csv";
 
 function parseCSV(text){
@@ -217,21 +179,7 @@ function norm(s){
  return String(s||"")
   .toLowerCase()
   .normalize("NFD")
-  .replace(/[\u0300-\u036f]/g,"")
-  .trim();
-}
-
-function findCol(headers, names){
- const h = headers.map(norm);
- for(const name of names){
-   const exact = h.indexOf(norm(name));
-   if(exact !== -1) return exact;
- }
- for(const name of names){
-   const partial = h.findIndex(x => x.includes(norm(name)));
-   if(partial !== -1) return partial;
- }
- return -1;
+  .replace(/[\u0300-\u036f]/g,"");
 }
 
 let books=[];
@@ -243,38 +191,16 @@ fetch(CSV_URL)
 })
 .then(txt=>{
  const data=parseCSV(txt).filter(r=>r.some(c=>String(c).trim()));
- const headers=data.shift();
+ data.shift();
 
- const isbnCol = findCol(headers, ["isbn13","isbn"]);
- const titreCol = findCol(headers, ["titre","title"]);
- const prenomCol = findCol(headers, ["auteur_prenom","prenom"]);
- const nomCol = findCol(headers, ["auteur_nom","nom"]);
- const auteurCol = findCol(headers, ["auteur","author"]);
- const dateCol = findCol(headers, ["date_publication","date","publication"]);
- const pagesCol = findCol(headers, ["nb_pages","pages"]);
- const lienCol = findCol(headers, ["lien google book","google book","google_books","lien"]);
- const coverCol = findCol(headers, ["cover","couverture","image"]);
- const editionCol = findCol(headers, ["edition","éditeur","editeur"]);
-
- books=data.map(r=>{
-   let auteur = "";
-   if(prenomCol !== -1 || nomCol !== -1){
-     auteur = [r[prenomCol] || "", r[nomCol] || ""].join(" ").trim();
-   } else if(auteurCol !== -1) {
-     auteur = (r[auteurCol] || "").trim();
-   }
-
-   return {
-     isbn: isbnCol !== -1 ? (r[isbnCol]||"").trim() : "",
-     titre: titreCol !== -1 ? (r[titreCol]||"").trim() : "",
-     auteur,
-     date: dateCol !== -1 ? (r[dateCol]||"").trim() : "",
-     pages: pagesCol !== -1 ? (r[pagesCol]||"").trim() : "",
-     lien: lienCol !== -1 ? (r[lienCol]||"").trim() : "",
-     cover: coverCol !== -1 ? (r[coverCol]||"").trim() : "",
-     edition: editionCol !== -1 ? (r[editionCol]||"").trim() : ""
-   };
- });
+ books=data.map(r=>({
+   isbn:(r[0]||"").trim(),
+   titre:(r[1]||"").trim(),
+   auteur:((r[3]||"") + " " + (r[2]||"")).trim(),
+   date:(r[4]||"").trim(),
+   pages:(r[5]||"").trim(),
+   lien:(r[6]||"").trim()
+ }));
 
  document.getElementById("q").addEventListener("input",render);
  document.getElementById("sort").addEventListener("change",render);
@@ -284,7 +210,7 @@ fetch(CSV_URL)
 .catch(e=>{
  document.getElementById("count").textContent="";
  document.getElementById("list").innerHTML =
-   `<div class="emptyMsg">Impossible de charger le CSV enrichi.<br>Vérifie que le fichier existe bien sur GitHub Pages.</div>`;
+   `<div class="empty">Impossible de charger le CSV distant.</div>`;
 });
 
 function render(){
@@ -306,7 +232,7 @@ function render(){
 
  if(!list.length){
    document.getElementById("list").innerHTML =
-     `<div class="emptyMsg">Aucun livre trouvé</div>`;
+     `<div class="empty">Aucun livre trouvé</div>`;
    return;
  }
 
@@ -315,25 +241,16 @@ function render(){
    const googleUrl = "https://www.google.com/search?q=" + encodeURIComponent(searchText);
    const booksUrl = b.lien || ("https://books.google.com/books?q=" + encodeURIComponent(b.isbn || searchText));
 
-   const coverHtml = b.cover
-     ? `<img class="cover" loading="lazy" src="${esc(b.cover)}" alt="">`
-     : `<div class="cover empty">📘</div>`;
-
-   const metaParts = [];
-   if(b.date) metaParts.push(esc(b.date));
-   if(b.pages) metaParts.push(esc(b.pages) + " p.");
-   if(b.edition) metaParts.push(esc(b.edition));
-   if(b.isbn) metaParts.push("ISBN " + esc(b.isbn));
-
    return `
     <article class="book">
-      ${coverHtml}
       <div class="info">
         <div class="line1">
           <span class="author">${esc(b.auteur) || "Auteur inconnu"}</span>
           <span class="title">${esc(b.titre)}</span>
         </div>
-        <div class="meta">${metaParts.join(" · ")}</div>
+        <div class="meta">
+          ${esc(b.date)}${b.pages ? " · " + esc(b.pages) + " p." : ""}${b.isbn ? " · ISBN " + esc(b.isbn) : ""}
+        </div>
       </div>
       <a class="iconbtn" href="${googleUrl}" target="_blank" rel="noopener" title="Recherche Google">🔎</a>
       <a class="iconbtn" href="${esc(booksUrl)}" target="_blank" rel="noopener" title="Google Books">📚</a>
