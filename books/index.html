@@ -249,7 +249,7 @@ fetch(CSV_URL)
  const titreCol = findCol(headers, ["titre","title"]);
  const prenomCol = findCol(headers, ["auteur_prenom","prenom"]);
  const nomCol = findCol(headers, ["auteur_nom","nom"]);
- const auteurCol = findCol(headers, ["auteur","author"]);
+// const auteurCol = findCol(headers, ["auteur","author"]);
  const dateCol = findCol(headers, ["date_publication","date","publication"]);
  const pagesCol = findCol(headers, ["nb_pages","pages"]);
  const lienCol = findCol(headers, ["lien google book","google book","google_books","lien"]);
@@ -260,9 +260,7 @@ fetch(CSV_URL)
    let auteur = "";
    if(prenomCol !== -1 || nomCol !== -1){
      auteur = [r[nomCol] || "", r[prenomCol] || ""].join(" ").trim();
-   } else if(auteurCol !== -1) {
-     auteur = (r[auteurCol] || "").trim();
-   }
+   } 
 
    return {
      isbn: isbnCol !== -1 ? (r[isbnCol]||"").trim() : "",
