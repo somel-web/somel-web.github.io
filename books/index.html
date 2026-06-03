@@ -184,7 +184,7 @@ main{padding:10px}
 </main>
 
 <script>
-  
+
 // Mets ici le CSV enrichi avec la colonne cover.
 // Exemple : https://somel-web.github.io/books/bibliotheque-genes-avec-covers.csv
 //"https://somel-web.github.io/books/bibliotheque-genes.csv";
@@ -281,6 +281,7 @@ fetch(CSV_URL)
  render();
 })
 .catch(e=>{
+  console.log(e)
  document.getElementById("count").textContent="";
  document.getElementById("list").innerHTML =
    `<div class="emptyMsg">Impossible de charger le CSV enrichi.<br>Vérifie que le fichier existe bien sur GitHub Pages.</div>`;
