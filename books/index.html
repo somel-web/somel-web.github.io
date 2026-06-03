@@ -252,9 +252,9 @@ fetch(CSV_URL)
 // const auteurCol = findCol(headers, ["auteur","author"]);
  const dateCol = findCol(headers, ["date_publication","date","publication"]);
  const pagesCol = findCol(headers, ["nb_pages","pages"]);
- const lienCol = findCol(headers, ["lien google book","google book","google_books","lien"]);
+ const ggbookid = findCol(headers, ["ggbookid","ggbookid"]);
  const coverCol = findCol(headers, ["cover","couverture","image"]);
- const editionCol = findCol(headers, ["edition","éditeur","editeur"]);
+
 
  books=data.map(r=>{
    let auteur = "";
@@ -268,7 +268,7 @@ fetch(CSV_URL)
      auteur,
      date: dateCol !== -1 ? (r[dateCol]||"").trim() : "",
      pages: pagesCol !== -1 ? (r[pagesCol]||"").trim() : "",
-     lien: lienCol !== -1 ? (r[lienCol]||"").trim() : "",
+     ggbookid: ggbookid !== -1 ? (r[ggbookid]||"").trim() : "",
      cover: coverCol !== -1 ? (r[coverCol]||"").trim() : "",
      edition: editionCol !== -1 ? (r[editionCol]||"").trim() : ""
    };
@@ -310,8 +310,8 @@ function render(){
 
  document.getElementById("list").innerHTML = list.map(b=>{
    const searchText = [b.titre, b.auteur, b.isbn].filter(Boolean).join(" ");
-   const googleUrl = "https://www.google.com/search?q=" + encodeURIComponent(searchText);
-   const booksUrl = b.lien || ("https://books.google.com/books?q=" + encodeURIComponent(b.isbn || searchText));
+   const googleUrl = "https://www.google.com/search?q=" + b.isbn;
+   const booksUrl = "https://www.google.fr/books/edition/_/" + b.ggbookid +  "?hl=fr";
 
    const coverHtml = b.cover
      ? `<img class="cover" loading="lazy" src="${esc(b.cover)}" alt="">`
